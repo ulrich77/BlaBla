@@ -1,8 +1,8 @@
-var ROWS = 6
-var COLS = 7
+var ROWS = 6;
+var COLS = 7;
 
-function field() {
-	var currentUser = "none";
+function Field() {
+	var currentUser = "red";
 	var field = null;
 
 	var histStates = new Array();
@@ -15,21 +15,25 @@ function field() {
 		field = new Array(COLS);
 		for ( var i = 0; i < COLS; i++) {
 			field[i] = new Array(ROWS);
-			for (j in field[i]) {
-				j = "none";
+			for ( var j = 0; j < ROWS; j++) {
+				field[i][j] = "none";
 			}
 		}
 	}
 
-	function reset() {
+	this.reset = function() {
 		initField();
-	}
+	};
 
-	function setCurrentUser(user) {
+	this.getField = function() {
+		return field;
+	};
+
+	this.setCurrentUser = function(user) {
 		currentUser = user;
-	}
+	};
 
-	function switschUser() {
+	function switchUser() {
 		if (currentUser = "red") {
 			currentUser = "blue";
 		} else {
@@ -37,25 +41,23 @@ function field() {
 		}
 	}
 
-	function getField() {
-		return field;
-	}
-
-	function insert(stange) {
-		if (isNumber(stange)) {
+	this.insert = function(stange) {
+		if (!isNaN(stange)) {
 			return insertInStange(stange);
 		} else
 			throw exception("Not a number");
-	}
+	};
 
 	function insertInStange(stange) {
 		if (stange < COLS) {
 			var currentStange = field[stange];
-			for ( var i = 0; i < Rows; i++) {
+			for ( var i = 0; i < ROWS; i++) {
 				if (currentStange[i] != "none")
 					continue;
 				else {
 					currentStange[i] = currentUser;
+					addHistState();
+					switchUser();
 					return true;
 				}
 			}
@@ -69,10 +71,14 @@ function field() {
 		histStates[histStates.length] = field;
 	}
 
-	function undo() {
+	this.undo = function() {
 		field = histStates[histStates.length - 1];
 		histStates.length--;
-	}
+	};
+
+	this.win = function() {
+		return checkRules();
+	};
 
 	function checkRules() {
 		var user = "none";
@@ -97,7 +103,7 @@ function field() {
 		for (col in field) {
 			var user = "none";
 			var count = 0;
-			for (var cell in field[col]) {
+			for ( var cell in field[col]) {
 				if (cell == "none") {
 					user = "none";
 					count = 0;
@@ -107,7 +113,11 @@ function field() {
 					count = 1;
 				} else if (cell == user) {
 					count++;
+					if (count >= 4) {
+						return user;
+					}
 				}
+				;
 			}
 			if (user != "none" && count >= 4)
 				return user;
@@ -120,17 +130,21 @@ function field() {
 		for ( var row = 0; row < ROWS; row++) {
 			var user = "none";
 			var count = 0;
-			for (var col in field) {
-				var cell = field[col][row];
-				if(cell == "none"){
+			for ( var col in field) {
+				var cell = col[row];
+				if (cell == "none") {
 					user = "none";
 					count = 0;
-				} else if(cell != user){
+				} else if (cell != user) {
 					user = cell;
 					count = 1;
-				} else if(cell == user){
+				} else if (cell == user) {
 					count++;
+					if (count >= 4) {
+						return user;
+					}
 				}
+				;
 			}
 			if (user != "none" && count >= 4)
 				return user;
@@ -138,8 +152,78 @@ function field() {
 		// no horizontal line for one user
 		return false;
 	}
-	
-	function checkDiagonal(){
-		
+
+	function checkDiagonal() {
+		var user = checkDiagonalUp();
+		if (user == "red" || user == "blue") {
+			return user;
+		} else {
+			user = checkDiagonalDown();
+			if (user == "red" || user == "blue") {
+				return user;
+			} else {
+				return false;
+			}
+		}
 	}
-}
+
+	function checkDiagonalUp() {
+		var user = "none";
+		var count = 0;
+		// diagonale started in each column
+		for ( var rowOffset = 0; rowOffset < ROWS; rowOffset++) {
+			for ( var col = 0; col < COLS; col++) {
+				var row = col + rowOffset;
+				if (row >= ROWS)
+					break;
+
+				var cell = field[col][row];
+				if (cell == "none") {
+					break;
+				} else if (cell != user) {
+					user = cell;
+					count = 1;
+				} else if (cell == user) {
+					count++;
+					if (count >= 4) {
+						return user;
+					}
+				}
+			}
+			if (user != "none" && count >= 4)
+				return user;
+		}
+		// no diagonal line for one user
+		return false;
+	}
+
+	function checkDiagonalDown() {
+		var user = "none";
+		var count = 0;
+		// diagonale started in each column
+		for ( var rowOffset = 0; rowOffset < ROWS; rowOffset++) {
+			for ( var col = 0; col < COLS; col++) {
+				var row = ROWS - col - rowOffset;
+				if (row < 0)
+					break;
+
+				var cell = field[col][col + rowOffset];
+				if (cell == "none") {
+					break;
+				} else if (cell != user) {
+					user = cell;
+					count = 1;
+				} else if (cell == user) {
+					count++;
+					if (count >= 4) {
+						return user;
+					}
+				}
+			}
+			if (user != "none" && count >= 4)
+				return user;
+		}
+		// no diagonal line for one user
+		return false;
+	}
+};

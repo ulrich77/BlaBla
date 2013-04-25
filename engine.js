@@ -1,38 +1,62 @@
 function Engine() {
-	gameField = [ [ "red", "blue" ], [ "none", "none" ], [ "none", "red" ] ];
+	gameField = [ [ "red", "blue" ], [ "red", "none" ], [ "none", "red" ] ];
 	balls = [ [], [] ];
 	lines = new Array();
+	var f = new Field();
+	var space = 0;
+	var lineWidth = 5;
+	
+	this.restart = function() {
+		f = new Field();
+		up();
+	};
 
 	/*
 	 * Called once when a game state is activated. Use it for one-time setup
 	 * code.
 	 */
 	this.setup = function() {
+		up();
+
+		for ( var i = 0; i < gameField.length; i++) {
+			lines[i] = jaws.Rect(space + i * space, 50, lineWidth,
+					jaws.height - 50);
+		}
+		
+		jaws.on_keydown("left_mouse_button", function() {
+			pos = space/2;
+			i = 0;
+			do {
+				i++;
+				pos += space + lineWidth;
+			} while(jaws.mouse_x > pos);
+			console.log(i-1);
+			f.insert(i-1);
+			up();
+		});
+
+		jaws.context.mozImageSmoothingEnabled = false; // non-blurry, blocky
+		jaws.preventDefaultKeys([ "up", "down", "left", "right", "space" ]);
+	};
+	
+	function up() {
+		gameField = f.getField();
+		space = jaws.width / (gameField.length + 1) - lineWidth;
+		ballR = 33;
 		for ( var y = 0; y < gameField.length; y++) {
 			balls[y] = new Array();
 			for ( var x = 0; x < gameField[y].length; x++) {
 				console.log(gameField[y][x]);
 				ball = new jaws.Sprite({
 					image : colorToPicture(gameField[y][x]),
-					x : 70 * y,
-					y : 70 * x,
+					x : space + space * y - ballR,
+					y : jaws.height - x * ballR * 2 - ballR * 2,
 					scale : 0.1
 				});
-				jaws.log(ball);
 				balls[y][x] = ball;
 			}
 		}
-
-		var lineWidth = 5;
-		var space = jaws.width / (gameField.length+1) - lineWidth;
-		for ( var i = 0; i < gameField.length; i++) {
-			lines[i] = jaws.Rect(space + i * space, 50,
-					lineWidth, jaws.height - 50);
-		}
-
-		jaws.context.mozImageSmoothingEnabled = false; // non-blurry, blocky
-		jaws.preventDefaultKeys([ "up", "down", "left", "right", "space" ]);
-	};
+	}
 
 	/*
 	 * update() will get called each game tick with your specified FPS. Put game
