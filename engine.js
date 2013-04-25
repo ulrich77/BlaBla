@@ -1,21 +1,27 @@
 function Engine() {
-	gameField = [ [ "red", "blue" ], [ "none", "none" ], [ "none", "red" ] ];
+	gameField = [ [ "red", "blue" ], [ "red", "none" ], [ "none", "red" ] ];
 	balls = [ [], [] ];
 	lines = new Array();
+	var f = new Field();
 
 	/*
 	 * Called once when a game state is activated. Use it for one-time setup
 	 * code.
 	 */
 	this.setup = function() {
+		gameField = f.getField();
+		var lineWidth = 5;
+		var space = jaws.width / (gameField.length+1) - lineWidth;
+		
+		ballR = 33;
 		for ( var y = 0; y < gameField.length; y++) {
 			balls[y] = new Array();
 			for ( var x = 0; x < gameField[y].length; x++) {
 				console.log(gameField[y][x]);
 				ball = new jaws.Sprite({
 					image : colorToPicture(gameField[y][x]),
-					x : 70 * y,
-					y : 70 * x,
+					x : space + space * y - ballR,
+					y : jaws.height - x * ballR*2 - ballR*2,
 					scale : 0.1
 				});
 				jaws.log(ball);
@@ -23,8 +29,6 @@ function Engine() {
 			}
 		}
 
-		var lineWidth = 5;
-		var space = jaws.width / (gameField.length+1) - lineWidth;
 		for ( var i = 0; i < gameField.length; i++) {
 			lines[i] = jaws.Rect(space + i * space, 50,
 					lineWidth, jaws.height - 50);
@@ -39,6 +43,11 @@ function Engine() {
 	 * logic here.
 	 */
 	this.update = function() {
+		if(jaws.pressed("left_mouse_button")) {
+			var x = Math.round(jaws.mouse_x/jaws.width * gameField.length);
+			console.log(x);
+			f.insert(x);
+		}
 	};
 
 	/*
