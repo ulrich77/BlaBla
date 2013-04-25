@@ -10,23 +10,34 @@
 	 	<script src="game.js" ></script>
 	 	<script src="jaws.js" ></script>
 	 	<script src="engine.js" ></script>
+	 	
+	 	<script type="text/javascript">
+	 		function showHelp() {
+	 			document.getElementById('helpdiv').style.visibility = 'visible';
+	 		}
+	 		
+			function hideHelp() {
+				document.getElementById('helpdiv').style.visibility = 'hidden';
+	 		}
+	 	</script>
 	</head>
 	<body>
 		<div id="header">
 			<h1>4-Gewinnt</h1>
+			<h2>Das spannende Strategiespiel</h2>
+			<span class="help"> <a href="#" onclick="showHelp()">Hilfe</a> </span>
 		</div>
 		 
 		<div id="maincontent">
 			<div id="menu">
-				<h2>Einstellungen</h2>
+				<h3>Einstellungen</h3>
 				<a href="#">Neues Spiel</a>
-				<h3>Spielart:</h3>
+				<h4>Spielart:</h4>
 					<input type="radio" name="type" value="mm" checked="checked"> Mensch - Mensch <br />
 					<input type="radio" name="type" value="mc"> Mensch - Computer
-				<h3>Startspieler:</h3>
+				<h4>Startspieler:</h4>
 					<span class="blue"><input type="radio" name="start" value="blue" checked="checked"> Blau</span> <br />
 					<span class="red"><input type="radio" name="start" value="red"> Rot</span>
-				<h3>Regeln</h3>
 			</div>
 	
 			<div id="content">
@@ -36,6 +47,24 @@
 		
 		<div id="footer">
 		
+		</div>
+		
+		
+		
+		<div id="helpdiv">
+			<div id="helpcontent">
+				<h3>Hilfe</h3>
+				<h4>Spielart einstellen</h4>
+				<p>Auf der linken Seite unter der &Uuml;berschrift "Spielart" k&ouml;nnen Sie ausw&auml;hlen, ob Sie gegen einen Menschen, oder gegen den Computer spielem wollen.</p>
+				<h4>Startspieler wählen</h4>
+				<p>Auf der linken Seite unter der &Uuml;berschrift "Startspieler" k&ouml;nnen Sie ausw&auml;hlen, welche Farbe den ersten Spiezug ausf&uuml;hren darf.</p>
+				<h4>Das Spiel beginnen</h4>
+				<p>Wenn Sie alle Einstellungen vorgenommen haben, k&ouml;nnen Sie mit "Neues Spiel" das Spiel start</p>
+				<h4>Spielz&uuml;ge r&uuml;ckg&auml;ngig machen</h4>
+				Spielz&uuml;ge k&ouml;nnen Sie mit "Spielzug r&uuml;ckg&auml;ngig machen" zur&uuml;ckgsetzen.
+				<br /><br /><br />
+				<span class="help"> <a href="#" onclick="hideHelp()">Schlie&szlig;en</a> </span>
+			</div>
 		</div>
 	</body>
 </html>
