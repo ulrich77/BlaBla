@@ -1,7 +1,7 @@
-var ROWS = 6
-var COLS = 7
+var ROWS = 6;
+var COLS = 7;
 
-function field() {
+function Field() {
 	var currentUser = "none";
 	var field = null;
 
@@ -21,13 +21,13 @@ function field() {
 		}
 	}
 
-	function reset() {
+	this.reset = function() {
 		initField();
-	}
+	};
 
-	function setCurrentUser(user) {
+	this.setCurrentUser = function(user) {
 		currentUser = user;
-	}
+	};
 
 	function switschUser() {
 		if (currentUser = "red") {
@@ -37,16 +37,16 @@ function field() {
 		}
 	}
 
-	function getField() {
+	this.getField = function() {
 		return field;
-	}
+	};
 
-	function insert(stange) {
+	this.insert = function(stange) {
 		if (isNumber(stange)) {
 			return insertInStange(stange);
 		} else
 			throw exception("Not a number");
-	}
+	};
 
 	function insertInStange(stange) {
 		if (stange < COLS) {
@@ -63,16 +63,20 @@ function field() {
 		} else {
 			throw exception("Out of column range");
 		}
-	}
+	};
 
 	function addHistState() {
 		histStates[histStates.length] = field;
-	}
+	};
 
-	function undo() {
+	this.undo = function() {
 		field = histStates[histStates.length - 1];
 		histStates.length--;
-	}
+	};
+	
+	this.win = function(){
+		return checkRules();
+	};
 
 	function checkRules() {
 		var user = "none";
@@ -89,8 +93,8 @@ function field() {
 					return user;
 				else
 					return false;
-			}
-		}
+			};
+		};
 	}
 
 	function checkVertical() {
@@ -107,7 +111,7 @@ function field() {
 					count = 1;
 				} else if (cell == user) {
 					count++;
-				}
+				};
 			}
 			if (user != "none" && count >= 4)
 				return user;
@@ -121,7 +125,7 @@ function field() {
 			var user = "none";
 			var count = 0;
 			for (var col in field) {
-				var cell = field[col][row];
+				var cell = col[row];
 				if(cell == "none"){
 					user = "none";
 					count = 0;
@@ -130,16 +134,19 @@ function field() {
 					count = 1;
 				} else if(cell == user){
 					count++;
-				}
+				};
 			}
 			if (user != "none" && count >= 4)
 				return user;
 		}
 		// no horizontal line for one user
 		return false;
-	}
+	};
 	
 	function checkDiagonal(){
-		
-	}
-}
+		// diagonale started in in each column
+		for(var col = 0; col < COLS; col++){
+			
+		}
+	};
+};
