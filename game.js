@@ -106,8 +106,9 @@ function Field() {
 	}
 
 	function checkBoth() {
-		for (col in field) {
-			for (cell in col) {
+		for (var col = 0; col < COLS; col++) {
+			for (var row = 0; row < ROWS; row++) {
+				var cell = field[col][row];
 				if (cell == "none") {
 					return false;
 				}
@@ -120,7 +121,8 @@ function Field() {
 		for (col in field) {
 			var user = "none";
 			var count = 0;
-			for ( var cell in field[col]) {
+			for ( var row = 0; row < ROWS; row++) {
+				var cell = field[col][row];
 				if (cell == "none") {
 					user = "none";
 					count = 0;
@@ -134,7 +136,6 @@ function Field() {
 						return user;
 					}
 				}
-				;
 			}
 			if (user != "none" && count >= 4)
 				return user;
@@ -147,8 +148,9 @@ function Field() {
 		for ( var row = 0; row < ROWS; row++) {
 			var user = "none";
 			var count = 0;
-			for ( var col in field) {
-				var cell = col[row];
+			for ( var j = 0; j < COLS; j++) {
+				var cell = field[j][row];
+				console.log("cell" + cell)
 				if (cell == "none") {
 					user = "none";
 					count = 0;
@@ -161,10 +163,10 @@ function Field() {
 						return user;
 					}
 				}
-				;
 			}
-			if (user != "none" && count >= 4)
+			if (user != "none" && count >= 4) {
 				return user;
+			}
 		}
 		// no horizontal line for one user
 		return false;
