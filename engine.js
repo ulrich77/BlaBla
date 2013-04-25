@@ -3,6 +3,8 @@ function Engine() {
 	balls = [ [], [] ];
 	lines = new Array();
 	var f = new Field();
+	var space = 0;
+	var lineWidth = 5;
 
 	/*
 	 * Called once when a game state is activated. Use it for one-time setup
@@ -10,9 +12,8 @@ function Engine() {
 	 */
 	this.setup = function() {
 		gameField = f.getField();
-		var lineWidth = 5;
-		var space = jaws.width / (gameField.length+1) - lineWidth;
-		
+		space = jaws.width / (gameField.length + 1) - lineWidth;
+
 		ballR = 33;
 		for ( var y = 0; y < gameField.length; y++) {
 			balls[y] = new Array();
@@ -21,7 +22,7 @@ function Engine() {
 				ball = new jaws.Sprite({
 					image : colorToPicture(gameField[y][x]),
 					x : space + space * y - ballR,
-					y : jaws.height - x * ballR*2 - ballR*2,
+					y : jaws.height - x * ballR * 2 - ballR * 2,
 					scale : 0.1
 				});
 				jaws.log(ball);
@@ -30,8 +31,8 @@ function Engine() {
 		}
 
 		for ( var i = 0; i < gameField.length; i++) {
-			lines[i] = jaws.Rect(space + i * space, 50,
-					lineWidth, jaws.height - 50);
+			lines[i] = jaws.Rect(space + i * space, 50, lineWidth,
+					jaws.height - 50);
 		}
 
 		jaws.context.mozImageSmoothingEnabled = false; // non-blurry, blocky
@@ -43,8 +44,9 @@ function Engine() {
 	 * logic here.
 	 */
 	this.update = function() {
-		if(jaws.pressed("left_mouse_button")) {
-			var x = Math.round(jaws.mouse_x/jaws.width * gameField.length);
+		if (jaws.pressed("left_mouse_button")) {
+			var x = Math.floor(jaws.mouse_x
+					/ jaws.width * gameField.length);
 			console.log(x);
 			f.insert(x);
 		}
