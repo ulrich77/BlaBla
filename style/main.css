@@ -1,9 +1,42 @@
 @CHARSET "UTF-8";
 
-header{
+#header{
 	border-bottom: 1px solid black;
+	text-align: center;
 }
 
-footer {
+#maincontent {
+	margin-top:25px;
+	margin-bottom: 25px;
+}
+
+#footer {
 	border-top: 1px solid black;
+	clear: both;	
+}
+
+#menu {
+	float:left;
+	width: 20%;
+}
+
+#content {
+	width: 80%;
+	float: left;
+	text-align: center;
+}
+
+#gamearea {
+	border: 1px solid silver;
+	margin-bottom: 25px;
+}
+
+.blue {
+	color: blue;
+	font-weight: bold;
+}
+
+.red {
+	color: red;
+	font-weight: bold;
 }
