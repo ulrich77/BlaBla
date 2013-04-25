@@ -15,8 +15,8 @@ function Field() {
 		field = new Array(COLS);
 		for ( var i = 0; i < COLS; i++) {
 			field[i] = new Array(ROWS);
-			for (j in field[i]) {
-				j = "none";
+			for ( var j = 0; j < ROWS; j++) {
+				field[i][j] = "none";
 			}
 		}
 	}
@@ -28,12 +28,12 @@ function Field() {
 	this.getField = function() {
 		return field;
 	};
-	
+
 	this.setCurrentUser = function(user) {
 		currentUser = user;
 	};
 
-	function switschUser() {
+	function switchUser() {
 		if (currentUser = "red") {
 			currentUser = "blue";
 		} else {
@@ -56,6 +56,8 @@ function Field() {
 					continue;
 				else {
 					currentStange[i] = currentUser;
+					addHistState();
+					switchUser();
 					return true;
 				}
 			}
