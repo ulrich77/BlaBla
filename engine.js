@@ -1,52 +1,59 @@
+engine = new Engine();
+var f = new Field();
+
+function restart() {
+	console.log("up");
+	f = new Field();
+	engine.up();
+};
+
 function Engine() {
 	gameField = [ [ "red", "blue" ], [ "red", "none" ], [ "none", "red" ] ];
 	balls = [ [], [] ];
 	lines = new Array();
-	var f = new Field();
 	var space = 0;
 	var lineWidth = 5;
-	
-	this.restart = function() {
-		f = new Field();
-		up();
-	};
 
 	/*
 	 * Called once when a game state is activated. Use it for one-time setup
 	 * code.
 	 */
 	this.setup = function() {
-		up();
+		this.up();
 
 		for ( var i = 0; i < gameField.length; i++) {
 			lines[i] = jaws.Rect(space + i * space, 50, lineWidth,
 					jaws.height - 50);
 		}
-		
+
 		jaws.on_keydown("left_mouse_button", function() {
-			pos = space/2;
+			pos = space / 2;
 			i = 0;
 			do {
 				i++;
 				pos += space + lineWidth;
-			} while(jaws.mouse_x > pos);
-			console.log(i-1);
-			f.insert(i-1);
-			up();
+			} while (jaws.mouse_x > pos);
+			x = i - 1;
+			if (x < gameField.length) {
+				console.log(x);
+				f.insert(x);
+				engine.up();
+			}
 		});
 
 		jaws.context.mozImageSmoothingEnabled = false; // non-blurry, blocky
 		jaws.preventDefaultKeys([ "up", "down", "left", "right", "space" ]);
 	};
-	
-	function up() {
+
+	this.up = function() {
+		console.log("up");
 		gameField = f.getField();
 		space = jaws.width / (gameField.length + 1) - lineWidth;
 		ballR = 15;
 		for ( var y = 0; y < gameField.length; y++) {
 			balls[y] = new Array();
 			for ( var x = 0; x < gameField[y].length; x++) {
-//				console.log(gameField[y][x]);
+				// console.log(gameField[y][x]);
 				ball = new jaws.Sprite({
 					image : colorToPicture(gameField[y][x]),
 					x : space + space * y - ballR,
@@ -57,7 +64,7 @@ function Engine() {
 			}
 		}
 		result = f.win();
-		if(result != "none" && result != false) {
+		if (result != "none" && result != false) {
 			alert(result + " won");
 		}
 	}
@@ -81,11 +88,10 @@ function Engine() {
 		jaws.context.strokeStyle = "black";
 		jaws.context.stroke();
 
-
 		for ( var i = 0; i < lines.length; i++) {
 			lines[i].draw();
 		}
-		
+
 		for ( var y = 0; y < balls.length; y++) {
 			for ( var x = 0; x < balls[y].length; x++) {
 				balls[y][x].draw();
@@ -107,5 +113,5 @@ function Engine() {
 jaws.onload = function() {
 	jaws.assets.add("G1-Kugel-red.png");
 	jaws.assets.add("G1-Kugel-blue.png");
-	jaws.start(Engine);
+	jaws.start(engine);
 };
