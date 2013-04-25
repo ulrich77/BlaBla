@@ -65,7 +65,8 @@ function Engine() {
 		}
 		result = f.win();
 		if (result != "none" && result != false) {
-			alert(result + " won");
+//			alert(result + " won");
+			console.log(result + " won");
 		}
 	}
 
