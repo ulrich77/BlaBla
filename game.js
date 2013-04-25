@@ -34,7 +34,7 @@ function Field() {
 	};
 
 	function switchUser() {
-		if (currentUser = "red") {
+		if (currentUser == "red") {
 			currentUser = "blue";
 		} else {
 			currentUser = "red";
@@ -58,6 +58,7 @@ function Field() {
 					currentStange[i] = currentUser;
 					addHistState();
 					switchUser();
+					console.log("next user:" + currentUser);
 					return true;
 				}
 			}
