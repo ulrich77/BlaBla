@@ -34,7 +34,7 @@ function Field() {
 	};
 
 	function switchUser() {
-		if (currentUser = "red") {
+		if (currentUser == "red") {
 			currentUser = "blue";
 		} else {
 			currentUser = "red";
@@ -58,6 +58,7 @@ function Field() {
 					currentStange[i] = currentUser;
 					addHistState();
 					switchUser();
+					console.log("next user:" + currentUser);
 					return true;
 				}
 			}
@@ -93,10 +94,26 @@ function Field() {
 				user = checkDiagonal();
 				if (user == "red" || user == "blue")
 					return user;
-				else
-					return false;
+				else {
+					user = checkBoth();
+					if (user == "both") {
+						return user;
+					} else
+						return "none";
+				}
 			}
 		}
+	}
+
+	function checkBoth() {
+		for (col in field) {
+			for (cell in col) {
+				if (cell == "none") {
+					return false;
+				}
+			}
+		}
+		return "both";
 	}
 
 	function checkVertical() {
