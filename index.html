@@ -10,14 +10,30 @@
 	<!-- 	<script src="game.js" /> -->
 	</head>
 	<body>
-		<header>
+		<div id="header">
 			<h1>4-Gewinnt</h1>
-		</header>
+		</div>
+		 
+		<div id="maincontent">
+			<div id="menu">
+				<h2>Einstellungen</h2>
+				<a href="#">Neues Spiel</a>
+				<h3>Spielart:</h3>
+					<input type="radio" name="type" value="mm" checked="checked"> Mensch - Mensch <br />
+					<input type="radio" name="type" value="mc"> Mensch - Computer
+				<h3>Startspieler:</h3>
+					<span class="blue"><input type="radio" name="start" value="blue" checked="checked"> Blau</span> <br />
+					<span class="red"><input type="radio" name="start" value="red"> Rot</span>
+				<h3>Regeln</h3>
+			</div>
 	
-		<canvas width=500 height=300></canvas>
+			<div id="content">
+				<canvas id="gamearea" width=500 height=300></canvas>
+			</div>
+		</div>
 		
-		<footer>
+		<div id="footer">
 		
-		</footer>
+		</div>
 	</body>
 </html>
