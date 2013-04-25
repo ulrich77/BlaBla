@@ -42,19 +42,23 @@ function Engine() {
 	function up() {
 		gameField = f.getField();
 		space = jaws.width / (gameField.length + 1) - lineWidth;
-		ballR = 33;
+		ballR = 15;
 		for ( var y = 0; y < gameField.length; y++) {
 			balls[y] = new Array();
 			for ( var x = 0; x < gameField[y].length; x++) {
-				console.log(gameField[y][x]);
+//				console.log(gameField[y][x]);
 				ball = new jaws.Sprite({
 					image : colorToPicture(gameField[y][x]),
 					x : space + space * y - ballR,
-					y : jaws.height - x * ballR * 2 - ballR * 2,
-					scale : 0.1
+					y : jaws.height - x * ballR * 2 - ballR * 2 - 5,
+					scale : 0.05
 				});
 				balls[y][x] = ball;
 			}
+		}
+		result = f.win();
+		if(result != "none" && result != false) {
+			alert(result + " won");
 		}
 	}
 
@@ -77,14 +81,15 @@ function Engine() {
 		jaws.context.strokeStyle = "black";
 		jaws.context.stroke();
 
+
+		for ( var i = 0; i < lines.length; i++) {
+			lines[i].draw();
+		}
+		
 		for ( var y = 0; y < balls.length; y++) {
 			for ( var x = 0; x < balls[y].length; x++) {
 				balls[y][x].draw();
 			}
-		}
-
-		for ( var i = 0; i < lines.length; i++) {
-			lines[i].draw();
 		}
 
 	};
