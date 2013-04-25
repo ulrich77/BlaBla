@@ -2,7 +2,7 @@ var ROWS = 6;
 var COLS = 7;
 
 function Field() {
-	var currentUser = "none";
+	var currentUser = "red";
 	var field = null;
 
 	var histStates = new Array();
