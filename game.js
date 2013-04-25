@@ -42,7 +42,7 @@ function Field() {
 	};
 
 	this.insert = function(stange) {
-		if (isNumber(stange)) {
+		if (!isNaN(stange)) {
 			return insertInStange(stange);
 		} else
 			throw exception("Not a number");
@@ -111,6 +111,9 @@ function Field() {
 					count = 1;
 				} else if (cell == user) {
 					count++;
+					if(count >= 4) {
+						return user;
+					}
 				};
 			}
 			if (user != "none" && count >= 4)
@@ -134,6 +137,9 @@ function Field() {
 					count = 1;
 				} else if(cell == user){
 					count++;
+					if(count >= 4) {
+						return user;
+					}
 				};
 			}
 			if (user != "none" && count >= 4)
@@ -144,9 +150,66 @@ function Field() {
 	};
 	
 	function checkDiagonal(){
-		// diagonale started in in each column
-		for(var col = 0; col < COLS; col++){
-			
+		
+	}
+	
+	function checkDiagonalUp(){
+		var user = "none";
+		var count = 0;
+		// diagonale started in each column
+		for(var rowOffset = 0; rowOffset < ROWS; rowOffset++){
+			for(var col = 0; col < COLS; col++){
+				var row = col + rowOffset;
+				if(row >= ROWS)
+					break;
+				
+				var cell = field[col][row];
+				if(cell == "none"){
+					break;
+				} else if(cell != user){
+					user = cell;
+					count = 1;
+				} else if (cell == user){
+					count++;
+					if(count >= 4) {
+						return user;
+					}
+				}
+			}
+			if (user != "none" && count >= 4)
+				return user;
 		}
+		// no diagonal line for one user
+		return false;
+	};
+	
+	function checkDiagonalDown(){
+		var user = "none";
+		var count = 0;
+		// diagonale started in each column
+		for(var rowOffset = 0; rowOffset < ROWS; rowOffset++){
+			for(var col = 0; col < COLS; col++){
+				var row = ROWS - col - rowOffset;
+				if(row < 0)
+					break;
+
+				var cell = field[col][col+rowOffset];
+				if(cell == "none"){
+					break;
+				} else if(cell != user){
+					user = cell;
+					count = 1;
+				} else if (cell == user){
+					count++;
+					if(count >= 4) {
+						return user;
+					}
+				}
+			}
+			if (user != "none" && count >= 4)
+				return user;
+		}
+		// no diagonal line for one user
+		return false;
 	};
 };
