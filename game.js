@@ -51,7 +51,7 @@ function Field() {
 	function insertInStange(stange) {
 		if (stange < COLS) {
 			var currentStange = field[stange];
-			for ( var i = 0; i < Rows; i++) {
+			for ( var i = 0; i < ROWS; i++) {
 				if (currentStange[i] != "none")
 					continue;
 				else {
