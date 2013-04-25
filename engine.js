@@ -5,15 +5,43 @@ function Engine() {
 	var f = new Field();
 	var space = 0;
 	var lineWidth = 5;
+	
+	this.restart = function() {
+		f = new Field();
+		up();
+	};
 
 	/*
 	 * Called once when a game state is activated. Use it for one-time setup
 	 * code.
 	 */
 	this.setup = function() {
+		up();
+
+		for ( var i = 0; i < gameField.length; i++) {
+			lines[i] = jaws.Rect(space + i * space, 50, lineWidth,
+					jaws.height - 50);
+		}
+		
+		jaws.on_keydown("left_mouse_button", function() {
+			pos = space/2;
+			i = 0;
+			do {
+				i++;
+				pos += space + lineWidth;
+			} while(jaws.mouse_x > pos);
+			console.log(i-1);
+			f.insert(i-1);
+			up();
+		});
+
+		jaws.context.mozImageSmoothingEnabled = false; // non-blurry, blocky
+		jaws.preventDefaultKeys([ "up", "down", "left", "right", "space" ]);
+	};
+	
+	function up() {
 		gameField = f.getField();
 		space = jaws.width / (gameField.length + 1) - lineWidth;
-
 		ballR = 33;
 		for ( var y = 0; y < gameField.length; y++) {
 			balls[y] = new Array();
@@ -25,31 +53,16 @@ function Engine() {
 					y : jaws.height - x * ballR * 2 - ballR * 2,
 					scale : 0.1
 				});
-				jaws.log(ball);
 				balls[y][x] = ball;
 			}
 		}
-
-		for ( var i = 0; i < gameField.length; i++) {
-			lines[i] = jaws.Rect(space + i * space, 50, lineWidth,
-					jaws.height - 50);
-		}
-
-		jaws.context.mozImageSmoothingEnabled = false; // non-blurry, blocky
-		jaws.preventDefaultKeys([ "up", "down", "left", "right", "space" ]);
-	};
+	}
 
 	/*
 	 * update() will get called each game tick with your specified FPS. Put game
 	 * logic here.
 	 */
 	this.update = function() {
-		if (jaws.pressed("left_mouse_button")) {
-			var x = Math.floor(jaws.mouse_x
-					/ jaws.width * gameField.length);
-			console.log(x);
-			f.insert(x);
-		}
 	};
 
 	/*
