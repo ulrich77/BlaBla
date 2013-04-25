@@ -25,9 +25,14 @@ h2 {
 }
 
 #content {
-	width: 80%;
+	width: 60%;
 	float: left;
-	text-align: justify;
+	text-align: center;
+}
+
+#gameinfo {
+	width: 20%;
+	float: left;
 }
 
 #gamearea {
