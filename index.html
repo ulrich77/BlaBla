@@ -19,11 +19,20 @@
 			function hideHelp() {
 				document.getElementById('helpdiv').style.visibility = 'hidden';
 	 		}
+			
+			function showWinner() {
+				document.getElementById('winnertxt').innerHTML = "Uuuund der Gewinner ist<br />Rot"
+				document.getElementById('winnerdiv').style.visibility = 'visible';
+			}
+			
+			function hideWinner() {
+				document.getElementById('winnerdiv').style.visibility = 'hidden';
+	 		}
 	 	</script>
 	</head>
 	<body>
 		<div id="header">
-			<h1>4-Gewinnt</h1>
+			<h1 onclick="showWinner()">4-Gewinnt</h1>
 			<h2>Das spannende Strategiespiel</h2>
 			<span class="help"> <a href="#" onclick="showHelp()">Hilfe</a> </span>
 		</div>
@@ -42,6 +51,7 @@
 	
 			<div id="content">
 				<canvas id="gamearea" width=500 height=300></canvas>
+				<a href="#">Spielzug r&uuml;ckg&auml;ngig machen</a>
 			</div>
 		</div>
 		
@@ -49,10 +59,16 @@
 		
 		</div>
 		
+		<div id="winnerdiv" class="bigdiv">
+			<div class="smalldiv">
+				<span id="winnertxt"></span>
+				<br /><br /><br />
+				<span class="help"> <a href="#" onclick="hideWinner()">Schlie&szlig;en</a> </span>
+			</div>
+		</div>
 		
-		
-		<div id="helpdiv">
-			<div id="helpcontent">
+		<div id="helpdiv" class="bigdiv">
+			<div id="helpcontent" class="smalldiv">
 				<h3>Hilfe</h3>
 				<h4>Spielart einstellen</h4>
 				<p>Auf der linken Seite unter der &Uuml;berschrift "Spielart" k&ouml;nnen Sie ausw&auml;hlen, ob Sie gegen einen Menschen, oder gegen den Computer spielem wollen.</p>
@@ -61,7 +77,7 @@
 				<h4>Das Spiel beginnen</h4>
 				<p>Wenn Sie alle Einstellungen vorgenommen haben, k&ouml;nnen Sie mit "Neues Spiel" das Spiel start</p>
 				<h4>Spielz&uuml;ge r&uuml;ckg&auml;ngig machen</h4>
-				Spielz&uuml;ge k&ouml;nnen Sie mit "Spielzug r&uuml;ckg&auml;ngig machen" zur&uuml;ckgsetzen.
+				<p>Spielz&uuml;ge k&ouml;nnen Sie mit "Spielzug r&uuml;ckg&auml;ngig machen" zur&uuml;ckgsetzen.</p>
 				<br /><br /><br />
 				<span class="help"> <a href="#" onclick="hideHelp()">Schlie&szlig;en</a> </span>
 			</div>
